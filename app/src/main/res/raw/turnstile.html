@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnstile Verification</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
+    </style>
+</head>
+<body>
+    <div id="turnstile-widget"
+         class="cf-turnstile"
+         data-sitekey="SITE_KEY_PLACEHOLDER"
+         data-callback="onTurnstileSuccess"
+         data-expired-callback="onTurnstileExpired"
+         data-error-callback="onTurnstileError">
+    </div>
+
+    <script>
+        // These callbacks communicate with the Android WebView via JavaScript interface.
+        // The Android side injects a 'TurnstileBridge' object.
+        function onTurnstileSuccess(token) {
+            if (window.TurnstileBridge) {
+                TurnstileBridge.onTokenReceived(token);
+            }
+        }
+        function onTurnstileExpired() {
+            if (window.TurnstileBridge) {
+                TurnstileBridge.onExpired();
+            }
+        }
+        function onTurnstileError() {
+            if (window.TurnstileBridge) {
+                TurnstileBridge.onError();
+            }
+        }
+    </script>
+</body>
+</html>

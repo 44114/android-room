@@ -1,0 +1,49 @@
+# ── IDE / Build ──────────────────────────────────────────
+*.iml
+.idea/
+.gradle/
+.kotlin/
+/build
+/app/build
+/app/release
+/captures
+.externalNativeBuild/
+.cxx/
+.navigation/
+local.properties
+
+# ── Keystore & signing keys (sensitive!) ─────────────────
+*.jks
+*.keystore
+*.keystore.properties
+*.p12
+*.pkcs12
+signing/
+release/
+
+# ── Environment & secrets ─────────────────────────────────
+.env
+*.env
+google-services.json
+GoogleService-Info.plist
+secrets.properties
+
+# ── Build outputs ─────────────────────────────────────────
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+
+# ── Logs & diagnostics ────────────────────────────────────
+*.log
+*.hprof
+*.heap
+core/
+
+# ── OS ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
