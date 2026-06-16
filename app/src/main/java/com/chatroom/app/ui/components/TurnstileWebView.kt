@@ -11,8 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.chatroom.app.R
 
 /**
  * Cloudflare Turnstile verification widget rendered in a WebView.
@@ -52,7 +55,7 @@ fun TurnstileWebView(
     if (siteKey.isBlank()) {
         // Site key not yet loaded from server config
         Box(modifier = modifier.height(65.dp), contentAlignment = Alignment.Center) {
-            Text("等待验证组件加载...", style = MaterialTheme.typography.bodySmall,
+            Text(stringResource(R.string.turnstile_loading), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.secondary)
         }
         return
@@ -82,7 +85,7 @@ fun TurnstileWebView(
                         description: String?,
                         failingUrl: String?,
                     ) {
-                        onError("Turnstile 加载失败: ${description ?: "未知错误"}")
+                        onError(context.getString(R.string.turnstile_load_failed, description ?: context.getString(R.string.turnstile_unknown_error)))
                     }
                 }
 
@@ -96,12 +99,12 @@ fun TurnstileWebView(
 
                     @JavascriptInterface
                     fun onExpired() {
-                        post { onError("验证已过期，请重新验证") }
+                        post { onError(context.getString(R.string.turnstile_expired)) }
                     }
 
                     @JavascriptInterface
                     fun onError() {
-                        post { onError("人机验证失败，请重试") }
+                        post { onError(context.getString(R.string.turnstile_failed)) }
                     }
                 }, "TurnstileBridge")
 

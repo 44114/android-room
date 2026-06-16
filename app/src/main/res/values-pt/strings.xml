@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Sala de bate-papo</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 Entrar</string>
+    <string name="login_welcome">Bem-vindo de volta</string>
+    <string name="login_username">Nome de usuário</string>
+    <string name="login_password">Senha</string>
+    <string name="login_remember_me">Lembrar-me</string>
+    <string name="login_turnstile_skipped">✅ Verificação humana ignorada (cliente móvel isento)</string>
+    <string name="login_button">Entrar</string>
+    <string name="login_no_account">Não tem conta? Cadastre-se agora</string>
+    <string name="login_failed">Falha no login</string>
+    <string name="login_network_error">Erro de rede</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 Criar conta</string>
+    <string name="register_subtitle">Junte-se à nossa comunidade de chat</string>
+    <string name="register_username_hint">Nome de usuário (3-30 letras, números ou sublinhados)</string>
+    <string name="register_password_hint">Senha (pelo menos 8 caracteres, com pelo menos 3 tipos)</string>
+    <string name="register_password_strength_weak">Fraca</string>
+    <string name="register_password_strength_fair">Razoável</string>
+    <string name="register_password_strength_good">Boa</string>
+    <string name="register_password_strength_strong">Forte</string>
+    <string name="register_confirm_password">Confirmar senha</string>
+    <string name="register_password_mismatch">As senhas não coincidem</string>
+    <string name="register_invite_code">Código de convite</string>
+    <string name="register_button">Cadastrar-se</string>
+    <string name="register_has_account">Já tem conta? Entre agora</string>
+    <string name="register_failed">Falha no cadastro</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># Lobby</string>
+    <string name="chat_connected">Conectado</string>
+    <string name="chat_disconnected">Desconectado</string>
+    <string name="chat_account">Conta</string>
+    <string name="chat_typing">%1$s está digitando…</string>
+    <string name="chat_uploading">Enviando: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">Enviar arquivo</string>
+    <string name="chat_input_placeholder">Digite uma mensagem…</string>
+    <string name="chat_send">Enviar</string>
+    <string name="chat_upload_failed">Falha no envio</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ Gerenciar conta</string>
+    <string name="account_back">Voltar</string>
+    <string name="account_info">Informações da conta</string>
+    <string name="account_username_label">Nome de usuário: %1$s</string>
+    <string name="account_change_password">Alterar senha</string>
+    <string name="account_current_password">Senha atual</string>
+    <string name="account_new_password">Nova senha</string>
+    <string name="account_confirm_new_password">Confirmar nova senha</string>
+    <string name="account_change_password_success">Senha alterada com sucesso</string>
+    <string name="account_change_password_failed">Falha na alteração</string>
+    <string name="account_delete_title">Excluir conta</string>
+    <string name="account_delete_warning">⚠️ Esta ação não pode ser desfeita</string>
+    <string name="account_delete_password_hint">Digite a senha para confirmar</string>
+    <string name="account_delete_confirm">Confirmar exclusão</string>
+    <string name="account_server">Servidor</string>
+    <string name="account_current_server">Servidor atual: %1$s</string>
+    <string name="account_change_server">Alterar servidor</string>
+    <string name="account_logout">Sair</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">Bem-vindo à sala de bate-papo</string>
+    <string name="setup_server_settings">Configurações do servidor</string>
+    <string name="setup_welcome_hint">Por favor, insira o endereço do servidor de chat</string>
+    <string name="setup_reconnect_hint">Você precisará fazer login novamente após alterar o endereço do servidor</string>
+    <string name="setup_server_url">Endereço do servidor</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">Por favor, insira a URL completa, incluindo http:// e o número da porta</string>
+    <string name="setup_url_empty_error">Por favor, insira o endereço do servidor</string>
+    <string name="setup_url_invalid_error">O endereço deve começar com http:// ou https://</string>
+    <string name="setup_config_error">Não foi possível obter a configuração do servidor: %1$s</string>
+    <string name="setup_connect_button">Conectar ao servidor</string>
+    <string name="setup_reconnect_button">Salvar e reconectar</string>
+    <string name="setup_emulator_button">Usar endereço padrão do emulador (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">Arquivo</string>
+    <string name="file_download">Baixar</string>
+
+    <!-- Common -->
+    <string name="common_error">Erro</string>
+    <string name="common_success">Sucesso</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_ok">OK</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">Carregando widget de verificação…</string>
+    <string name="turnstile_load_failed">Falha ao carregar verificação: %1$s</string>
+    <string name="turnstile_expired">Verificação expirou, verifique novamente</string>
+    <string name="turnstile_failed">Falha na verificação, tente novamente</string>
+    <string name="turnstile_unknown_error">Erro desconhecido</string>
+</resources>

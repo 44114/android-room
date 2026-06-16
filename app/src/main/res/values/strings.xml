@@ -1,4 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Name -->
     <string name="app_name">聊天室</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 登录</string>
+    <string name="login_welcome">欢迎回来</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_remember_me">记住我</string>
+    <string name="login_turnstile_skipped">✅ 已跳过人机验证（移动客户端豁免）</string>
+    <string name="login_button">登录</string>
+    <string name="login_no_account">没有账号？立即注册</string>
+    <string name="login_failed">登录失败</string>
+    <string name="login_network_error">网络错误</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 创建账号</string>
+    <string name="register_subtitle">加入我们的聊天社区</string>
+    <string name="register_username_hint">用户名（3–30位字母、数字或下划线）</string>
+    <string name="register_password_hint">密码（至少8位，含至少3种字符类型）</string>
+    <string name="register_password_strength_weak">弱</string>
+    <string name="register_password_strength_fair">一般</string>
+    <string name="register_password_strength_good">良好</string>
+    <string name="register_password_strength_strong">强</string>
+    <string name="register_confirm_password">确认密码</string>
+    <string name="register_password_mismatch">两次输入的密码不一致</string>
+    <string name="register_invite_code">邀请码</string>
+    <string name="register_button">注册</string>
+    <string name="register_has_account">已有账号？立即登录</string>
+    <string name="register_failed">注册失败</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># 大厅</string>
+    <string name="chat_connected">已连接</string>
+    <string name="chat_disconnected">断开</string>
+    <string name="chat_account">账号</string>
+    <string name="chat_typing">%1$s 正在输入…</string>
+    <string name="chat_uploading">上传中: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">发送文件</string>
+    <string name="chat_input_placeholder">输入消息…</string>
+    <string name="chat_send">发送</string>
+    <string name="chat_upload_failed">上传失败</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ 账号管理</string>
+    <string name="account_back">返回</string>
+    <string name="account_info">账号信息</string>
+    <string name="account_username_label">用户名：%1$s</string>
+    <string name="account_change_password">修改密码</string>
+    <string name="account_current_password">当前密码</string>
+    <string name="account_new_password">新密码</string>
+    <string name="account_confirm_new_password">确认新密码</string>
+    <string name="account_change_password_success">密码修改成功</string>
+    <string name="account_change_password_failed">修改失败</string>
+    <string name="account_delete_title">注销账号</string>
+    <string name="account_delete_warning">⚠️ 此操作不可撤销</string>
+    <string name="account_delete_password_hint">输入密码以确认</string>
+    <string name="account_delete_confirm">确认注销</string>
+    <string name="account_server">服务器</string>
+    <string name="account_current_server">当前服务器：%1$s</string>
+    <string name="account_change_server">更换服务器</string>
+    <string name="account_logout">退出登录</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">欢迎使用聊天室</string>
+    <string name="setup_server_settings">服务器设置</string>
+    <string name="setup_welcome_hint">请输入聊天室服务器的地址</string>
+    <string name="setup_reconnect_hint">修改服务器地址后需重新登录</string>
+    <string name="setup_server_url">服务器地址</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">请输入完整 URL，包括 http:// 和端口号</string>
+    <string name="setup_url_empty_error">请输入服务器地址</string>
+    <string name="setup_url_invalid_error">地址必须以 http:// 或 https:// 开头</string>
+    <string name="setup_config_error">无法获取服务器配置: %1$s</string>
+    <string name="setup_connect_button">连接服务器</string>
+    <string name="setup_reconnect_button">保存并重新连接</string>
+    <string name="setup_emulator_button">使用模拟器默认地址 (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">文件</string>
+    <string name="file_download">下载</string>
+
+    <!-- Common -->
+    <string name="common_error">错误</string>
+    <string name="common_success">成功</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_ok">确定</string>
+
+    <!-- Turnstile -->
+    <string name="turnstile_loading">等待验证组件加载…</string>
+    <string name="turnstile_load_failed">验证加载失败: %1$s</string>
+    <string name="turnstile_expired">验证已过期，请重新验证</string>
+    <string name="turnstile_failed">人机验证失败，请重试</string>
+    <string name="turnstile_unknown_error">未知错误</string>
 </resources>

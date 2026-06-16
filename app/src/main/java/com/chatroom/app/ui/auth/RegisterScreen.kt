@@ -6,11 +6,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.chatroom.app.R
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.repository.AuthRepository
 import com.chatroom.app.ui.components.TurnstileWebView
@@ -36,6 +39,10 @@ fun RegisterScreen(
 
     val scope = rememberCoroutineScope()
 
+    // Pre-fetch strings for use inside coroutine callbacks
+    val registerFailedText = stringResource(R.string.register_failed)
+    val networkErrorText = stringResource(R.string.login_network_error)
+
     // Password strength
     val passwordStrength = remember(password) {
         var score = 0
@@ -57,15 +64,15 @@ fun RegisterScreen(
             modifier = Modifier.padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("📝 创建账号", style = MaterialTheme.typography.titleLarge)
-            Text("加入我们的聊天社区", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+            Text(stringResource(R.string.register_title), style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.register_subtitle), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
             Spacer(Modifier.height(24.dp))
 
             // Username
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it.take(30).filter { c -> c.isLetterOrDigit() || c == '_' }; errorMessage = null },
-                label = { Text("用户名（3-30位字母、数字或下划线）") },
+                label = { Text(stringResource(R.string.register_username_hint)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth(),
@@ -76,7 +83,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it.take(128); errorMessage = null },
-                label = { Text("密码（至少8位，含至少3种字符类型）") },
+                label = { Text(stringResource(R.string.register_password_hint)) },
                 singleLine = true,
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -95,10 +102,10 @@ fun RegisterScreen(
                 )
                 Text(
                     when {
-                        passwordStrength <= 1 -> "弱"
-                        passwordStrength == 2 -> "一般"
-                        passwordStrength == 3 -> "良好"
-                        else -> "强"
+                        passwordStrength <= 1 -> stringResource(R.string.register_password_strength_weak)
+                        passwordStrength == 2 -> stringResource(R.string.register_password_strength_fair)
+                        passwordStrength == 3 -> stringResource(R.string.register_password_strength_good)
+                        else -> stringResource(R.string.register_password_strength_strong)
                     },
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
@@ -110,12 +117,12 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = passwordConfirm,
                 onValueChange = { passwordConfirm = it; errorMessage = null },
-                label = { Text("确认密码") },
+                label = { Text(stringResource(R.string.register_confirm_password)) },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 isError = passwordConfirm.isNotEmpty() && password != passwordConfirm,
                 supportingText = if (passwordConfirm.isNotEmpty() && password != passwordConfirm) {
-                    { Text("两次输入的密码不一致") }
+                    { Text(stringResource(R.string.register_password_mismatch)) }
                 } else null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth(),
@@ -126,7 +133,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = inviteCode,
                 onValueChange = { inviteCode = it; errorMessage = null },
-                label = { Text("邀请码") },
+                label = { Text(stringResource(R.string.register_invite_code)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 modifier = Modifier.fillMaxWidth(),
@@ -142,7 +149,7 @@ fun RegisterScreen(
                 )
             } else {
                 Text(
-                    "✅ 已跳过人机验证（移动客户端豁免）",
+                    stringResource(R.string.login_turnstile_skipped),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                 )
@@ -167,11 +174,11 @@ fun RegisterScreen(
                                 if (resp.redirect != null || resp.success == true) {
                                     onRegisterSuccess()
                                 } else {
-                                    errorMessage = resp.error ?: "注册失败"
+                                    errorMessage = resp.error ?: registerFailedText
                                     turnstileToken = ""
                                 }
                             }
-                            .onFailure { errorMessage = it.message ?: "网络错误" }
+                            .onFailure { errorMessage = it.message ?: networkErrorText }
                         isLoading = false
                     }
                 },
@@ -180,12 +187,12 @@ fun RegisterScreen(
                     password == passwordConfirm && inviteCode.isNotBlank(),
             ) {
                 if (isLoading) CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                else Text("注册")
+                else Text(stringResource(R.string.register_button))
             }
             Spacer(Modifier.height(12.dp))
 
             TextButton(onClick = onNavigateToLogin) {
-                Text("已有账号？立即登录")
+                Text(stringResource(R.string.register_has_account))
             }
         }
     }

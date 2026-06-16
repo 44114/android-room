@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.chatroom.app.data.api.ApiService
 import com.chatroom.app.data.local.PreferencesManager
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
+import com.chatroom.app.R
 
 /**
  * First-launch or settings screen where the user enters their server URL.
@@ -42,6 +44,12 @@ fun SetupScreen(
     // If we navigate here from AccountScreen, there may already be a saved URL
     val isFirstSetup = savedUrl.isBlank()
 
+    // Pre-fetch strings for use inside coroutine callbacks
+    val urlEmptyErrorText = stringResource(R.string.setup_url_empty_error)
+    val urlInvalidErrorText = stringResource(R.string.setup_url_invalid_error)
+    val configErrorFormat = stringResource(R.string.setup_config_error)
+    val unknownErrorText = stringResource(R.string.turnstile_unknown_error)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,16 +57,16 @@ fun SetupScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("💬", style = MaterialTheme.typography.displayLarge)
+        Text(stringResource(R.string.setup_emoji), style = MaterialTheme.typography.displayLarge)
 
         Spacer(Modifier.height(16.dp))
 
         Text(
-            text = if (isFirstSetup) "欢迎使用聊天室" else "服务器设置",
+            text = if (isFirstSetup) stringResource(R.string.setup_welcome) else stringResource(R.string.setup_server_settings),
             style = MaterialTheme.typography.titleLarge,
         )
         Text(
-            text = if (isFirstSetup) "请输入聊天室服务器的地址" else "修改服务器地址后需重新登录",
+            text = if (isFirstSetup) stringResource(R.string.setup_welcome_hint) else stringResource(R.string.setup_reconnect_hint),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.secondary,
         )
@@ -72,12 +80,12 @@ fun SetupScreen(
                 url = it
                 errorMessage = null
             },
-            label = { Text("服务器地址") },
-            placeholder = { Text("http://192.168.1.100:9888") },
+            label = { Text(stringResource(R.string.setup_server_url)) },
+            placeholder = { Text(stringResource(R.string.setup_url_placeholder)) },
             singleLine = true,
             isError = errorMessage != null,
             supportingText = errorMessage?.let { msg -> { Text(msg) } } ?: if (showHint) {
-                { Text("请输入完整 URL，包括 http:// 和端口号") }
+                { Text(stringResource(R.string.setup_url_hint)) }
             } else null,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Uri,
@@ -97,12 +105,12 @@ fun SetupScreen(
                     isSaving = true
                     val trimmedUrl = url.trim().trimEnd('/')
                     if (trimmedUrl.isBlank()) {
-                        errorMessage = "请输入服务器地址"
+                        errorMessage = urlEmptyErrorText
                         isSaving = false
                         return@launch
                     }
                     if (!trimmedUrl.startsWith("http://") && !trimmedUrl.startsWith("https://")) {
-                        errorMessage = "地址必须以 http:// 或 https:// 开头"
+                        errorMessage = urlInvalidErrorText
                         isSaving = false
                         return@launch
                     }
@@ -118,7 +126,7 @@ fun SetupScreen(
                     } catch (e: Exception) {
                         // Config fetch failed — still allow navigation but
                         // Turnstile won't work until the user retries.
-                        errorMessage = "无法获取服务器配置: ${e.message}"
+                        errorMessage = String.format(configErrorFormat, e.message ?: unknownErrorText)
                         isSaving = false
                         return@launch
                     }
@@ -136,7 +144,7 @@ fun SetupScreen(
                     strokeWidth = 2.dp,
                 )
             } else {
-                Text(if (isFirstSetup) "连接服务器" else "保存并重新连接")
+                Text(if (isFirstSetup) stringResource(R.string.setup_connect_button) else stringResource(R.string.setup_reconnect_button))
             }
         }
 
@@ -153,7 +161,7 @@ fun SetupScreen(
             ) {
                 Icon(Icons.Filled.Refresh, contentDescription = null, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(8.dp))
-                Text("使用模拟器默认地址 (10.0.2.2:9888)")
+                Text(stringResource(R.string.setup_emulator_button))
             }
         }
     }

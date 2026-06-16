@@ -7,8 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.chatroom.app.R
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.repository.AuthRepository
 import kotlinx.coroutines.launch
@@ -25,6 +27,10 @@ fun AccountScreen(
     val username by prefs.username.collectAsState(initial = "")
     val scope = rememberCoroutineScope()
 
+    // Pre-fetch strings for use inside coroutine callbacks
+    val changePasswordSuccessText = stringResource(R.string.account_change_password_success)
+    val changePasswordFailedText = stringResource(R.string.account_change_password_failed)
+
     // Change password
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
@@ -39,12 +45,12 @@ fun AccountScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("⚙️ 账号管理") },
+                title = { Text(stringResource(R.string.account_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "返回",
+                            contentDescription = stringResource(R.string.account_back),
                         )
                     }
                 },
@@ -60,9 +66,9 @@ fun AccountScreen(
             // Account info
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("账号信息", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.account_info), style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(8.dp))
-                    Text("用户名：$username")
+                    Text(stringResource(R.string.account_username_label, username))
                 }
             }
             Spacer(Modifier.height(16.dp))
@@ -70,13 +76,13 @@ fun AccountScreen(
             // Change password
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("修改密码", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.account_change_password), style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(12.dp))
 
                     OutlinedTextField(
                         value = currentPassword,
                         onValueChange = { currentPassword = it },
-                        label = { Text("当前密码") },
+                        label = { Text(stringResource(R.string.account_current_password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
@@ -86,7 +92,7 @@ fun AccountScreen(
                     OutlinedTextField(
                         value = newPassword,
                         onValueChange = { newPassword = it },
-                        label = { Text("新密码") },
+                        label = { Text(stringResource(R.string.account_new_password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
@@ -96,7 +102,7 @@ fun AccountScreen(
                     OutlinedTextField(
                         value = newPasswordConfirm,
                         onValueChange = { newPasswordConfirm = it },
-                        label = { Text("确认新密码") },
+                        label = { Text(stringResource(R.string.account_confirm_new_password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
@@ -108,21 +114,21 @@ fun AccountScreen(
                             scope.launch {
                                 authRepo.changePassword(currentPassword, newPassword, newPasswordConfirm)
                                     .onSuccess { resp ->
-                                        passwordMessage = resp.message ?: "密码修改成功"
+                                        passwordMessage = resp.message ?: changePasswordSuccessText
                                         if (resp.success == true) {
                                             currentPassword = ""; newPassword = ""; newPasswordConfirm = ""
                                         }
                                     }
-                                    .onFailure { passwordMessage = it.message ?: "修改失败" }
+                                    .onFailure { passwordMessage = it.message ?: changePasswordFailedText }
                             }
                         },
                         enabled = currentPassword.isNotBlank() && newPassword.length >= 8 &&
                             newPassword == newPasswordConfirm,
-                    ) { Text("修改密码") }
+                    ) { Text(stringResource(R.string.account_change_password)) }
 
                     passwordMessage?.let { msg ->
                         Text(msg, style = MaterialTheme.typography.bodySmall,
-                            color = if (msg.contains("成功")) MaterialTheme.colorScheme.primary
+                            color = if (msg.contains(stringResource(R.string.common_success))) MaterialTheme.colorScheme.primary
                             else MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(top = 8.dp))
                     }
@@ -136,15 +142,15 @@ fun AccountScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)),
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("注销账号", style = MaterialTheme.typography.titleMedium)
-                    Text("⚠️ 此操作不可撤销", style = MaterialTheme.typography.bodySmall,
+                    Text(stringResource(R.string.account_delete_title), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.account_delete_warning), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error)
                     Spacer(Modifier.height(8.dp))
 
                     OutlinedTextField(
                         value = deletePassword,
                         onValueChange = { deletePassword = it },
-                        label = { Text("输入密码以确认") },
+                        label = { Text(stringResource(R.string.account_delete_password_hint)) },
                         visualTransformation = PasswordVisualTransformation(),
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
@@ -155,7 +161,7 @@ fun AccountScreen(
                         onClick = { showDeleteConfirm = true },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                         enabled = deletePassword.isNotBlank(),
-                    ) { Text("确认注销") }
+                    ) { Text(stringResource(R.string.account_delete_confirm)) }
 
                     deleteMessage?.let { msg ->
                         Text(msg, style = MaterialTheme.typography.bodySmall,
@@ -170,15 +176,15 @@ fun AccountScreen(
             val serverUrl by prefs.serverUrl.collectAsState(initial = "")
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("服务器", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.account_server), style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(4.dp))
-                    Text("当前服务器：$serverUrl", style = MaterialTheme.typography.bodySmall,
+                    Text(stringResource(R.string.account_current_server, serverUrl), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.secondary)
                     Spacer(Modifier.height(8.dp))
                     OutlinedButton(
                         onClick = onChangeServer,
                         modifier = Modifier.fillMaxWidth(),
-                    ) { Text("更换服务器") }
+                    ) { Text(stringResource(R.string.account_change_server)) }
                 }
             }
 
@@ -193,7 +199,7 @@ fun AccountScreen(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text("退出登录") }
+            ) { Text(stringResource(R.string.account_logout)) }
         }
     }
 }

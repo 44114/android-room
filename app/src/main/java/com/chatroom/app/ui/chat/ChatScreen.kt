@@ -14,8 +14,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.chatroom.app.R
 import com.chatroom.app.data.api.SocketManager
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.model.Message
@@ -47,6 +49,10 @@ fun ChatScreen(
     var uploadProgress by remember { mutableStateOf<Pair<Long, Long>?>(null) } // (uploaded, total)
     val snackbarHostState = remember { SnackbarHostState() }
     var snackbarMessage by remember { mutableStateOf<String?>(null) }
+
+    val connectedText = stringResource(R.string.chat_connected)
+    val disconnectedText = stringResource(R.string.chat_disconnected)
+    val uploadFailedText = stringResource(R.string.chat_upload_failed)
 
     LaunchedEffect(snackbarMessage) {
         snackbarMessage?.let {
@@ -86,7 +92,7 @@ fun ChatScreen(
                     chatRepo.sendFileMessage(result.fileId!!, result.filename!!, result.fileSize)
                     uploadProgress = null
                 }.onFailure { err ->
-                    snackbarMessage = err.message ?: "上传失败"
+                    snackbarMessage = err.message ?: uploadFailedText
                     uploadProgress = null
                 }
             }
@@ -96,7 +102,7 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("# 大厅") },
+                title = { Text(stringResource(R.string.chat_room_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 ),
@@ -104,19 +110,19 @@ fun ChatScreen(
                     // Connection indicator
                     Icon(
                         imageVector = if (connected) Icons.Filled.Circle else Icons.Filled.Circle,
-                        contentDescription = if (connected) "已连接" else "未连接",
+                        contentDescription = if (connected) connectedText else disconnectedText,
                         tint = if (connected) androidx.compose.ui.graphics.Color(0xFF27AE60)
                         else androidx.compose.ui.graphics.Color(0xFFE74C3C),
                         modifier = Modifier.size(12.dp),
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
-                        if (connected) "已连接" else "断开",
+                        if (connected) connectedText else disconnectedText,
                         style = MaterialTheme.typography.labelSmall,
                     )
                     // Account button
                     IconButton(onClick = onNavigateToAccount) {
-                        Icon(Icons.Filled.Person, contentDescription = "账号")
+                        Icon(Icons.Filled.Person, contentDescription = stringResource(R.string.chat_account))
                     }
                 },
             )
@@ -166,7 +172,7 @@ fun ChatScreen(
             // Typing indicator
             if (typingUser.isNotEmpty()) {
                 Text(
-                    "$typingUser 正在输入...",
+                    stringResource(R.string.chat_typing, typingUser),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
@@ -182,7 +188,7 @@ fun ChatScreen(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
                 )
                 Text(
-                    "上传中: ${uploaded / 1024 / 1024}MB / ${total / 1024 / 1024}MB",
+                    stringResource(R.string.chat_uploading, uploaded / 1024 / 1024, total / 1024 / 1024),
                     style = MaterialTheme.typography.labelSmall,
                     modifier = Modifier.padding(horizontal = 16.dp),
                 )
@@ -197,7 +203,7 @@ fun ChatScreen(
             ) {
                 // File attach
                 IconButton(onClick = { filePicker.launch("*/*") }) {
-                    Icon(Icons.Filled.AttachFile, contentDescription = "发送文件")
+                    Icon(Icons.Filled.AttachFile, contentDescription = stringResource(R.string.chat_send_file))
                 }
 
                 // Text input
@@ -207,7 +213,7 @@ fun ChatScreen(
                         inputText = it
                         chatRepo.sendTypingIndicator(it.isNotEmpty())
                     },
-                    placeholder = { Text("输入消息...") },
+                    placeholder = { Text(stringResource(R.string.chat_input_placeholder)) },
                     modifier = Modifier.weight(1f),
                     maxLines = 4,
                 )
@@ -223,7 +229,7 @@ fun ChatScreen(
                     },
                     enabled = inputText.isNotBlank() && connected,
                 ) {
-                    Icon(Icons.Filled.Send, contentDescription = "发送")
+                    Icon(Icons.Filled.Send, contentDescription = stringResource(R.string.chat_send))
                 }
             }
         }

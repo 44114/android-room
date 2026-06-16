@@ -9,9 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.chatroom.app.R
 import com.chatroom.app.data.model.Message
 import com.chatroom.app.ui.theme.Blue100
 import com.chatroom.app.ui.theme.Blue500
@@ -35,7 +37,7 @@ fun FileCard(
             // File icon
             Icon(
                 imageVector = Icons.Filled.InsertDriveFile,
-                contentDescription = "文件",
+                contentDescription = stringResource(R.string.file_icon),
                 tint = Blue500,
                 modifier = Modifier.size(40.dp),
             )
@@ -45,7 +47,7 @@ fun FileCard(
             // File info
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = message.filename ?: "文件",
+                    text = message.filename ?: stringResource(R.string.file_icon),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
@@ -66,7 +68,7 @@ fun FileCard(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Download,
-                    contentDescription = "下载",
+                    contentDescription = stringResource(R.string.file_download),
                     tint = Blue500,
                 )
             }

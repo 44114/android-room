@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">채팅방</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 로그인</string>
+    <string name="login_welcome">다시 오신 것을 환영합니다</string>
+    <string name="login_username">사용자 이름</string>
+    <string name="login_password">비밀번호</string>
+    <string name="login_remember_me">로그인 상태 유지</string>
+    <string name="login_turnstile_skipped">✅ 사람 인증 건너뜀 (모바일 클라이언트 면제)</string>
+    <string name="login_button">로그인</string>
+    <string name="login_no_account">계정이 없으신가요? 지금 가입하세요</string>
+    <string name="login_failed">로그인 실패</string>
+    <string name="login_network_error">네트워크 오류</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 계정 만들기</string>
+    <string name="register_subtitle">우리 채팅 커뮤니티에 참여하세요</string>
+    <string name="register_username_hint">사용자 이름 (3-30자의 영문, 숫자 또는 밑줄)</string>
+    <string name="register_password_hint">비밀번호 (8자 이상, 최소 3가지 문자 유형)</string>
+    <string name="register_password_strength_weak">약함</string>
+    <string name="register_password_strength_fair">보통</string>
+    <string name="register_password_strength_good">좋음</string>
+    <string name="register_password_strength_strong">강함</string>
+    <string name="register_confirm_password">비밀번호 확인</string>
+    <string name="register_password_mismatch">비밀번호가 일치하지 않습니다</string>
+    <string name="register_invite_code">초대 코드</string>
+    <string name="register_button">가입</string>
+    <string name="register_has_account">이미 계정이 있으신가요? 지금 로그인하세요</string>
+    <string name="register_failed">가입 실패</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># 로비</string>
+    <string name="chat_connected">연결됨</string>
+    <string name="chat_disconnected">연결 끊김</string>
+    <string name="chat_account">계정</string>
+    <string name="chat_typing">%1$s 님이 입력 중…</string>
+    <string name="chat_uploading">업로드 중: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">파일 보내기</string>
+    <string name="chat_input_placeholder">메시지 입력…</string>
+    <string name="chat_send">보내기</string>
+    <string name="chat_upload_failed">업로드 실패</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ 계정 관리</string>
+    <string name="account_back">뒤로</string>
+    <string name="account_info">계정 정보</string>
+    <string name="account_username_label">사용자 이름: %1$s</string>
+    <string name="account_change_password">비밀번호 변경</string>
+    <string name="account_current_password">현재 비밀번호</string>
+    <string name="account_new_password">새 비밀번호</string>
+    <string name="account_confirm_new_password">새 비밀번호 확인</string>
+    <string name="account_change_password_success">비밀번호가 변경되었습니다</string>
+    <string name="account_change_password_failed">변경 실패</string>
+    <string name="account_delete_title">계정 삭제</string>
+    <string name="account_delete_warning">⚠️ 이 작업은 되돌릴 수 없습니다</string>
+    <string name="account_delete_password_hint">확인하려면 비밀번호를 입력하세요</string>
+    <string name="account_delete_confirm">삭제 확인</string>
+    <string name="account_server">서버</string>
+    <string name="account_current_server">현재 서버: %1$s</string>
+    <string name="account_change_server">서버 변경</string>
+    <string name="account_logout">로그아웃</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">채팅방에 오신 것을 환영합니다</string>
+    <string name="setup_server_settings">서버 설정</string>
+    <string name="setup_welcome_hint">채팅방 서버 주소를 입력하세요</string>
+    <string name="setup_reconnect_hint">서버 주소 변경 후 재로그인이 필요합니다</string>
+    <string name="setup_server_url">서버 주소</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">http://와 포트 번호를 포함한 전체 URL을 입력하세요</string>
+    <string name="setup_url_empty_error">서버 주소를 입력하세요</string>
+    <string name="setup_url_invalid_error">주소는 http:// 또는 https://로 시작해야 합니다</string>
+    <string name="setup_config_error">서버 설정을 가져올 수 없습니다: %1$s</string>
+    <string name="setup_connect_button">서버 연결</string>
+    <string name="setup_reconnect_button">저장하고 다시 연결</string>
+    <string name="setup_emulator_button">에뮬레이터 기본 주소 사용 (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">파일</string>
+    <string name="file_download">다운로드</string>
+
+    <!-- Common -->
+    <string name="common_error">오류</string>
+    <string name="common_success">성공</string>
+    <string name="common_cancel">취소</string>
+    <string name="common_ok">확인</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">인증 위젯 로딩 중…</string>
+    <string name="turnstile_load_failed">인증 로드 실패: %1$s</string>
+    <string name="turnstile_expired">인증이 만료되었습니다. 다시 인증해 주세요</string>
+    <string name="turnstile_failed">인증에 실패했습니다. 다시 시도해 주세요</string>
+    <string name="turnstile_unknown_error">알 수 없는 오류</string>
+</resources>

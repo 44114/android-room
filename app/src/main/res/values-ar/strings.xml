@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">غرفة الدردشة</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 تسجيل الدخول</string>
+    <string name="login_welcome">مرحبًا بعودتك</string>
+    <string name="login_username">اسم المستخدم</string>
+    <string name="login_password">كلمة المرور</string>
+    <string name="login_remember_me">تذكرني</string>
+    <string name="login_turnstile_skipped">✅ تم تخطي التحقق البشري (عميل الهاتف المحمول معفى)</string>
+    <string name="login_button">تسجيل الدخول</string>
+    <string name="login_no_account">ليس لديك حساب؟ سجل الآن</string>
+    <string name="login_failed">فشل تسجيل الدخول</string>
+    <string name="login_network_error">خطأ في الشبكة</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 إنشاء حساب</string>
+    <string name="register_subtitle">انضم إلى مجتمع الدردشة لدينا</string>
+    <string name="register_username_hint">اسم المستخدم (3-30 حرفًا أو رقمًا أو شرطة سفلية)</string>
+    <string name="register_password_hint">كلمة المرور (8 أحرف على الأقل، مع 3 أنواع على الأقل)</string>
+    <string name="register_password_strength_weak">ضعيفة</string>
+    <string name="register_password_strength_fair">متوسطة</string>
+    <string name="register_password_strength_good">جيدة</string>
+    <string name="register_password_strength_strong">قوية</string>
+    <string name="register_confirm_password">تأكيد كلمة المرور</string>
+    <string name="register_password_mismatch">كلمات المرور غير متطابقة</string>
+    <string name="register_invite_code">رمز الدعوة</string>
+    <string name="register_button">التسجيل</string>
+    <string name="register_has_account">لديك حساب بالفعل؟ سجل الدخول الآن</string>
+    <string name="register_failed">فشل التسجيل</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># الردهة</string>
+    <string name="chat_connected">متصل</string>
+    <string name="chat_disconnected">غير متصل</string>
+    <string name="chat_account">الحساب</string>
+    <string name="chat_typing">%1$s يكتب…</string>
+    <string name="chat_uploading">جارٍ الرفع: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">إرسال ملف</string>
+    <string name="chat_input_placeholder">اكتب رسالة…</string>
+    <string name="chat_send">إرسال</string>
+    <string name="chat_upload_failed">فشل الرفع</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ إدارة الحساب</string>
+    <string name="account_back">رجوع</string>
+    <string name="account_info">معلومات الحساب</string>
+    <string name="account_username_label">اسم المستخدم: %1$s</string>
+    <string name="account_change_password">تغيير كلمة المرور</string>
+    <string name="account_current_password">كلمة المرور الحالية</string>
+    <string name="account_new_password">كلمة المرور الجديدة</string>
+    <string name="account_confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="account_change_password_success">تم تغيير كلمة المرور بنجاح</string>
+    <string name="account_change_password_failed">فشل التغيير</string>
+    <string name="account_delete_title">حذف الحساب</string>
+    <string name="account_delete_warning">⚠️ لا يمكن التراجع عن هذا الإجراء</string>
+    <string name="account_delete_password_hint">أدخل كلمة المرور للتأكيد</string>
+    <string name="account_delete_confirm">تأكيد الحذف</string>
+    <string name="account_server">الخادم</string>
+    <string name="account_current_server">الخادم الحالي: %1$s</string>
+    <string name="account_change_server">تغيير الخادم</string>
+    <string name="account_logout">تسجيل الخروج</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">مرحبًا بك في غرفة الدردشة</string>
+    <string name="setup_server_settings">إعدادات الخادم</string>
+    <string name="setup_welcome_hint">الرجاء إدخال عنوان خادم غرفة الدردشة</string>
+    <string name="setup_reconnect_hint">ستحتاج إلى تسجيل الدخول مرة أخرى بعد تغيير عنوان الخادم</string>
+    <string name="setup_server_url">عنوان الخادم</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">الرجاء إدخال عنوان URL الكامل، بما في ذلك http:// ورقم المنفذ</string>
+    <string name="setup_url_empty_error">الرجاء إدخال عنوان الخادم</string>
+    <string name="setup_url_invalid_error">يجب أن يبدأ العنوان بـ http:// أو https://</string>
+    <string name="setup_config_error">تعذر الحصول على تكوين الخادم: %1$s</string>
+    <string name="setup_connect_button">الاتصال بالخادم</string>
+    <string name="setup_reconnect_button">حفظ وإعادة الاتصال</string>
+    <string name="setup_emulator_button">استخدام عنوان المحاكي الافتراضي (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">ملف</string>
+    <string name="file_download">تنزيل</string>
+
+    <!-- Common -->
+    <string name="common_error">خطأ</string>
+    <string name="common_success">نجاح</string>
+    <string name="common_cancel">إلغاء</string>
+    <string name="common_ok">موافق</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">جارٍ تحميل أداة التحقق…</string>
+    <string name="turnstile_load_failed">فشل تحميل التحقق: %1$s</string>
+    <string name="turnstile_expired">انتهت صلاحية التحقق، يرجى التحقق مرة أخرى</string>
+    <string name="turnstile_failed">فشل التحقق البشري، يرجى إعادة المحاولة</string>
+    <string name="turnstile_unknown_error">خطأ غير معروف</string>
+</resources>

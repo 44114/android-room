@@ -6,11 +6,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.chatroom.app.R
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.repository.AuthRepository
 import com.chatroom.app.ui.components.TurnstileWebView
@@ -23,6 +26,7 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
 ) {
+    val context = LocalContext.current
     val siteKey by prefs.turnstileSiteKey.collectAsState(initial = "")
     val turnstileRequired by prefs.turnstileRequiredForMobile.collectAsState(initial = false)
     var username by remember { mutableStateOf("") }
@@ -35,6 +39,10 @@ fun LoginScreen(
 
     val scope = rememberCoroutineScope()
 
+    // Pre-fetch strings for use inside coroutine callbacks
+    val loginFailedText = stringResource(R.string.login_failed)
+    val loginNetworkErrorText = stringResource(R.string.login_network_error)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,15 +53,15 @@ fun LoginScreen(
             modifier = Modifier.padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("🔑 登录", style = MaterialTheme.typography.titleLarge)
-            Text("欢迎回来", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+            Text(stringResource(R.string.login_title), style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.login_welcome), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
             Spacer(Modifier.height(24.dp))
 
             // Username
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it; errorMessage = null },
-                label = { Text("用户名") },
+                label = { Text(stringResource(R.string.login_username)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier.fillMaxWidth(),
@@ -64,7 +72,7 @@ fun LoginScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it; errorMessage = null },
-                label = { Text("密码") },
+                label = { Text(stringResource(R.string.login_password)) },
                 singleLine = true,
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -80,7 +88,7 @@ fun LoginScreen(
             // Remember me
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = rememberMe, onCheckedChange = { rememberMe = it })
-                Text("记住我", style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(R.string.login_remember_me), style = MaterialTheme.typography.bodySmall)
             }
             Spacer(Modifier.height(4.dp))
 
@@ -95,7 +103,7 @@ fun LoginScreen(
             } else {
                 // Server exempts mobile from Turnstile; include a hint for transparency
                 Text(
-                    "✅ 已跳过人机验证（移动客户端豁免）",
+                    stringResource(R.string.login_turnstile_skipped),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.secondary,
                 )
@@ -120,11 +128,11 @@ fun LoginScreen(
                                 if (resp.redirect != null || resp.success == true) {
                                     onLoginSuccess()
                                 } else {
-                                    errorMessage = resp.error ?: "登录失败"
+                                    errorMessage = resp.error ?: loginFailedText
                                     turnstileToken = ""
                                 }
                             }
-                            .onFailure { errorMessage = it.message ?: "网络错误" }
+                            .onFailure { errorMessage = it.message ?: loginNetworkErrorText }
                         isLoading = false
                     }
                 },
@@ -132,12 +140,12 @@ fun LoginScreen(
                 enabled = !isLoading && username.isNotBlank() && password.isNotBlank(),
             ) {
                 if (isLoading) CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                else Text("登录")
+                else Text(stringResource(R.string.login_button))
             }
             Spacer(Modifier.height(12.dp))
 
             TextButton(onClick = onNavigateToRegister) {
-                Text("没有账号？立即注册")
+                Text(stringResource(R.string.login_no_account))
             }
         }
     }

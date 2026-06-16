@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Chatraum</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 Anmelden</string>
+    <string name="login_welcome">Willkommen zurück</string>
+    <string name="login_username">Benutzername</string>
+    <string name="login_password">Passwort</string>
+    <string name="login_remember_me">Angemeldet bleiben</string>
+    <string name="login_turnstile_skipped">✅ Menschliche Überprüfung übersprungen (mobiler Client ausgenommen)</string>
+    <string name="login_button">Anmelden</string>
+    <string name="login_no_account">Noch kein Konto? Jetzt registrieren</string>
+    <string name="login_failed">Anmeldung fehlgeschlagen</string>
+    <string name="login_network_error">Netzwerkfehler</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 Konto erstellen</string>
+    <string name="register_subtitle">Treten Sie unserer Chat-Community bei</string>
+    <string name="register_username_hint">Benutzername (3-30 Buchstaben, Zahlen oder Unterstriche)</string>
+    <string name="register_password_hint">Passwort (mindestens 8 Zeichen, mit mindestens 3 Zeichentypen)</string>
+    <string name="register_password_strength_weak">Schwach</string>
+    <string name="register_password_strength_fair">Mittel</string>
+    <string name="register_password_strength_good">Gut</string>
+    <string name="register_password_strength_strong">Stark</string>
+    <string name="register_confirm_password">Passwort bestätigen</string>
+    <string name="register_password_mismatch">Passwörter stimmen nicht überein</string>
+    <string name="register_invite_code">Einladungscode</string>
+    <string name="register_button">Registrieren</string>
+    <string name="register_has_account">Bereits ein Konto? Jetzt anmelden</string>
+    <string name="register_failed">Registrierung fehlgeschlagen</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># Lobby</string>
+    <string name="chat_connected">Verbunden</string>
+    <string name="chat_disconnected">Getrennt</string>
+    <string name="chat_account">Konto</string>
+    <string name="chat_typing">%1$s tippt…</string>
+    <string name="chat_uploading">Hochladen: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">Datei senden</string>
+    <string name="chat_input_placeholder">Nachricht eingeben…</string>
+    <string name="chat_send">Senden</string>
+    <string name="chat_upload_failed">Hochladen fehlgeschlagen</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ Kontoverwaltung</string>
+    <string name="account_back">Zurück</string>
+    <string name="account_info">Kontoinformationen</string>
+    <string name="account_username_label">Benutzername: %1$s</string>
+    <string name="account_change_password">Passwort ändern</string>
+    <string name="account_current_password">Aktuelles Passwort</string>
+    <string name="account_new_password">Neues Passwort</string>
+    <string name="account_confirm_new_password">Neues Passwort bestätigen</string>
+    <string name="account_change_password_success">Passwort erfolgreich geändert</string>
+    <string name="account_change_password_failed">Änderung fehlgeschlagen</string>
+    <string name="account_delete_title">Konto löschen</string>
+    <string name="account_delete_warning">⚠️ Diese Aktion kann nicht rückgängig gemacht werden</string>
+    <string name="account_delete_password_hint">Passwort eingeben zur Bestätigung</string>
+    <string name="account_delete_confirm">Löschung bestätigen</string>
+    <string name="account_server">Server</string>
+    <string name="account_current_server">Aktueller Server: %1$s</string>
+    <string name="account_change_server">Server wechseln</string>
+    <string name="account_logout">Abmelden</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">Willkommen im Chatraum</string>
+    <string name="setup_server_settings">Servereinstellungen</string>
+    <string name="setup_welcome_hint">Bitte geben Sie die Adresse des Chatraum-Servers ein</string>
+    <string name="setup_reconnect_hint">Nach Änderung der Serveradresse müssen Sie sich erneut anmelden</string>
+    <string name="setup_server_url">Serveradresse</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">Bitte geben Sie die vollständige URL ein, einschließlich http:// und Portnummer</string>
+    <string name="setup_url_empty_error">Bitte geben Sie die Serveradresse ein</string>
+    <string name="setup_url_invalid_error">Die Adresse muss mit http:// oder https:// beginnen</string>
+    <string name="setup_config_error">Serverkonfiguration konnte nicht abgerufen werden: %1$s</string>
+    <string name="setup_connect_button">Mit Server verbinden</string>
+    <string name="setup_reconnect_button">Speichern und erneut verbinden</string>
+    <string name="setup_emulator_button">Standard-Emulator-Adresse verwenden (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">Datei</string>
+    <string name="file_download">Herunterladen</string>
+
+    <!-- Common -->
+    <string name="common_error">Fehler</string>
+    <string name="common_success">Erfolg</string>
+    <string name="common_cancel">Abbrechen</string>
+    <string name="common_ok">OK</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">Widget wird geladen…</string>
+    <string name="turnstile_load_failed">Laden fehlgeschlagen: %1$s</string>
+    <string name="turnstile_expired">Verifizierung abgelaufen, bitte erneut verifizieren</string>
+    <string name="turnstile_failed">Verifizierung fehlgeschlagen, bitte erneut versuchen</string>
+    <string name="turnstile_unknown_error">Unbekannter Fehler</string>
+</resources>

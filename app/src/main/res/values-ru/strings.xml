@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Чат-комната</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 Вход</string>
+    <string name="login_welcome">С возвращением</string>
+    <string name="login_username">Имя пользователя</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_remember_me">Запомнить меня</string>
+    <string name="login_turnstile_skipped">✅ Человеческая проверка пропущена (мобильный клиент освобожден)</string>
+    <string name="login_button">Войти</string>
+    <string name="login_no_account">Нет аккаунта? Зарегистрируйтесь</string>
+    <string name="login_failed">Ошибка входа</string>
+    <string name="login_network_error">Ошибка сети</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 Создать аккаунт</string>
+    <string name="register_subtitle">Присоединяйтесь к нашему чат-сообществу</string>
+    <string name="register_username_hint">Имя пользователя (3-30 букв, цифр или подчеркиваний)</string>
+    <string name="register_password_hint">Пароль (минимум 8 символов, минимум 3 типа символов)</string>
+    <string name="register_password_strength_weak">Слабый</string>
+    <string name="register_password_strength_fair">Средний</string>
+    <string name="register_password_strength_good">Хороший</string>
+    <string name="register_password_strength_strong">Сильный</string>
+    <string name="register_confirm_password">Подтвердите пароль</string>
+    <string name="register_password_mismatch">Пароли не совпадают</string>
+    <string name="register_invite_code">Код приглашения</string>
+    <string name="register_button">Зарегистрироваться</string>
+    <string name="register_has_account">Уже есть аккаунт? Войти</string>
+    <string name="register_failed">Ошибка регистрации</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># Холл</string>
+    <string name="chat_connected">Подключено</string>
+    <string name="chat_disconnected">Отключено</string>
+    <string name="chat_account">Аккаунт</string>
+    <string name="chat_typing">%1$s печатает…</string>
+    <string name="chat_uploading">Загрузка: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">Отправить файл</string>
+    <string name="chat_input_placeholder">Введите сообщение…</string>
+    <string name="chat_send">Отправить</string>
+    <string name="chat_upload_failed">Ошибка загрузки</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ Управление аккаунтом</string>
+    <string name="account_back">Назад</string>
+    <string name="account_info">Информация об аккаунте</string>
+    <string name="account_username_label">Имя пользователя: %1$s</string>
+    <string name="account_change_password">Изменить пароль</string>
+    <string name="account_current_password">Текущий пароль</string>
+    <string name="account_new_password">Новый пароль</string>
+    <string name="account_confirm_new_password">Подтвердите новый пароль</string>
+    <string name="account_change_password_success">Пароль успешно изменен</string>
+    <string name="account_change_password_failed">Ошибка изменения</string>
+    <string name="account_delete_title">Удалить аккаунт</string>
+    <string name="account_delete_warning">⚠️ Это действие нельзя отменить</string>
+    <string name="account_delete_password_hint">Введите пароль для подтверждения</string>
+    <string name="account_delete_confirm">Подтвердить удаление</string>
+    <string name="account_server">Сервер</string>
+    <string name="account_current_server">Текущий сервер: %1$s</string>
+    <string name="account_change_server">Сменить сервер</string>
+    <string name="account_logout">Выйти</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">Добро пожаловать в чат-комнату</string>
+    <string name="setup_server_settings">Настройки сервера</string>
+    <string name="setup_welcome_hint">Пожалуйста, введите адрес сервера чат-комнаты</string>
+    <string name="setup_reconnect_hint">После изменения адреса сервера необходимо войти снова</string>
+    <string name="setup_server_url">Адрес сервера</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">Пожалуйста, введите полный URL, включая http:// и номер порта</string>
+    <string name="setup_url_empty_error">Пожалуйста, введите адрес сервера</string>
+    <string name="setup_url_invalid_error">Адрес должен начинаться с http:// или https://</string>
+    <string name="setup_config_error">Не удалось получить конфигурацию сервера: %1$s</string>
+    <string name="setup_connect_button">Подключиться к серверу</string>
+    <string name="setup_reconnect_button">Сохранить и переподключиться</string>
+    <string name="setup_emulator_button">Использовать адрес эмулятора по умолчанию (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">Файл</string>
+    <string name="file_download">Скачать</string>
+
+    <!-- Common -->
+    <string name="common_error">Ошибка</string>
+    <string name="common_success">Успех</string>
+    <string name="common_cancel">Отмена</string>
+    <string name="common_ok">ОК</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">Загрузка виджета проверки…</string>
+    <string name="turnstile_load_failed">Ошибка загрузки проверки: %1$s</string>
+    <string name="turnstile_expired">Проверка истекла, пожалуйста, пройдите проверку снова</string>
+    <string name="turnstile_failed">Проверка не пройдена, пожалуйста, попробуйте снова</string>
+    <string name="turnstile_unknown_error">Неизвестная ошибка</string>
+</resources>

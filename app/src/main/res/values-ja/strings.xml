@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">チャットルーム</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">🔑 ログイン</string>
+    <string name="login_welcome">お帰りなさい</string>
+    <string name="login_username">ユーザー名</string>
+    <string name="login_password">パスワード</string>
+    <string name="login_remember_me">ログイン状態を保持</string>
+    <string name="login_turnstile_skipped">✅ 人証検証をスキップしました（モバイルクライアント免除）</string>
+    <string name="login_button">ログイン</string>
+    <string name="login_no_account">アカウントをお持ちでない方はこちら</string>
+    <string name="login_failed">ログインに失敗しました</string>
+    <string name="login_network_error">ネットワークエラー</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">📝 アカウント作成</string>
+    <string name="register_subtitle">チャットコミュニティに参加</string>
+    <string name="register_username_hint">ユーザー名（3〜30文字の英数字またはアンダースコア）</string>
+    <string name="register_password_hint">パスワード（8文字以上、3種類以上の文字種別）</string>
+    <string name="register_password_strength_weak">弱い</string>
+    <string name="register_password_strength_fair">普通</string>
+    <string name="register_password_strength_good">良好</string>
+    <string name="register_password_strength_strong">強い</string>
+    <string name="register_confirm_password">パスワード確認</string>
+    <string name="register_password_mismatch">パスワードが一致しません</string>
+    <string name="register_invite_code">招待コード</string>
+    <string name="register_button">登録</string>
+    <string name="register_has_account">すでにアカウントをお持ちの方はこちら</string>
+    <string name="register_failed">登録に失敗しました</string>
+
+    <!-- Chat Screen -->
+    <string name="chat_room_title"># ロビー</string>
+    <string name="chat_connected">接続済み</string>
+    <string name="chat_disconnected">切断</string>
+    <string name="chat_account">アカウント</string>
+    <string name="chat_typing">%1$s が入力中…</string>
+    <string name="chat_uploading">アップロード中: %1$dMB / %2$dMB</string>
+    <string name="chat_send_file">ファイルを送信</string>
+    <string name="chat_input_placeholder">メッセージを入力…</string>
+    <string name="chat_send">送信</string>
+    <string name="chat_upload_failed">アップロード失敗</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">⚙️ アカウント管理</string>
+    <string name="account_back">戻る</string>
+    <string name="account_info">アカウント情報</string>
+    <string name="account_username_label">ユーザー名: %1$s</string>
+    <string name="account_change_password">パスワード変更</string>
+    <string name="account_current_password">現在のパスワード</string>
+    <string name="account_new_password">新しいパスワード</string>
+    <string name="account_confirm_new_password">新しいパスワード確認</string>
+    <string name="account_change_password_success">パスワードが変更されました</string>
+    <string name="account_change_password_failed">変更に失敗しました</string>
+    <string name="account_delete_title">アカウント削除</string>
+    <string name="account_delete_warning">⚠️ この操作は取り消せません</string>
+    <string name="account_delete_password_hint">確認のためパスワードを入力</string>
+    <string name="account_delete_confirm">削除を確認</string>
+    <string name="account_server">サーバー</string>
+    <string name="account_current_server">現在のサーバー: %1$s</string>
+    <string name="account_change_server">サーバーを変更</string>
+    <string name="account_logout">ログアウト</string>
+
+    <!-- Setup Screen -->
+    <string name="setup_emoji">💬</string>
+    <string name="setup_welcome">チャットルームへようこそ</string>
+    <string name="setup_server_settings">サーバー設定</string>
+    <string name="setup_welcome_hint">チャットルームサーバーのアドレスを入力してください</string>
+    <string name="setup_reconnect_hint">サーバーアドレス変更後は再ログインが必要です</string>
+    <string name="setup_server_url">サーバーアドレス</string>
+    <string name="setup_url_placeholder">http://192.168.1.100:9888</string>
+    <string name="setup_url_hint">http:// とポート番号を含む完全なURLを入力してください</string>
+    <string name="setup_url_empty_error">サーバーアドレスを入力してください</string>
+    <string name="setup_url_invalid_error">アドレスは http:// または https:// で始まる必要があります</string>
+    <string name="setup_config_error">サーバー設定を取得できません: %1$s</string>
+    <string name="setup_connect_button">サーバーに接続</string>
+    <string name="setup_reconnect_button">保存して再接続</string>
+    <string name="setup_emulator_button">エミュレーターのデフォルトアドレスを使用 (10.0.2.2:9888)</string>
+
+    <!-- File Card -->
+    <string name="file_icon">ファイル</string>
+    <string name="file_download">ダウンロード</string>
+
+    <!-- Common -->
+    <string name="common_error">エラー</string>
+    <string name="common_success">成功</string>
+    <string name="common_cancel">キャンセル</string>
+    <string name="common_ok">OK</string>
+    <!-- Turnstile -->
+    <string name="turnstile_loading">認証ウィジェットを読み込み中…</string>
+    <string name="turnstile_load_failed">認証の読み込みに失敗: %1$s</string>
+    <string name="turnstile_expired">認証の有効期限が切れました。再認証してください</string>
+    <string name="turnstile_failed">認証に失敗しました。もう一度お試しください</string>
+    <string name="turnstile_unknown_error">不明なエラー</string>
+</resources>
