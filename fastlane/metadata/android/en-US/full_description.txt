@@ -1,0 +1,16 @@
+An Android client for the Chat Room real-time messaging server. Built with Jetpack Compose, OkHttp, and Socket.IO, it provides a modern interface for secure communication.
+
+Key Features:
+• Real-time text messaging with instant delivery
+• File sharing support for files up to 4 GB
+• Account management: register, login, change password, delete account
+• Configurable custom server URL for self-hosted instances
+• Remember Me functionality for convenient access
+• Turnstile verification for secure registration
+
+Technical Details:
+• Built with Jetpack Compose for a native Material Design experience
+• Requires Android 8.0 (API 26) or later
+• Uses OkHttp and Socket.IO for reliable real-time connections
+
+Note: This app requires a compatible Chat Room server to function. You can configure your own server URL in the Account settings.

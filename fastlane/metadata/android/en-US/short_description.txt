@@ -1,0 +1,1 @@
+Real-time messaging client with text, file sharing up to 4GB, and custom server support
