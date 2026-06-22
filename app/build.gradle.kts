@@ -14,7 +14,7 @@ android {
         minSdk = 26  // Android 8.0 (Oreo)
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0.1"
+        versionName = "1.0.2"
 
         // Server URL — override in local.properties or via buildConfigField for release
         buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:9888\"")
