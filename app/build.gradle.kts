@@ -46,6 +46,14 @@ android {
         compose = true
         buildConfig = true
     }
+
+    packaging {
+        jniLibs {
+            // AndroidX native libs (e.g. graphics.path, datastore) don't have
+            // separate debug symbol files to strip; package them as-is.
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {
