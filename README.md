@@ -10,6 +10,8 @@
 
 # 💬 Chat Room — Android Client
 
+> ⚠️ **Keep Android Open** — Starting September 2026, Google will silently block apps from unregistered developers on all Android devices. Sideloading freedom is under threat. Visit [keepandroidopen.org](https://keepandroidopen.org) to learn more and take action.
+
 Android app for the [Chat Room](https://github.com/44114/room) real-time messaging server. Built with **Jetpack Compose**, **OkHttp**, and **Socket.IO**, supporting text messaging, file sharing (up to 4 GB), account management, and configurable server URL. Requires **Android 8.0 (API 26)** or later.
 
 > 🤖 **Developed with assistance from [Claude Code](https://claude.ai/code) (Anthropic)**
@@ -140,6 +142,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 # 💬 聊天室 — Android 客户端
 
+> ⚠️ **保卫开放的 Android** — Google 将于 2026 年 9 月起强制封锁未注册开发者的应用，侧载自由面临威胁。访问 [keepandroidopen.org](https://keepandroidopen.org) 了解详情并支持这项运动。
+
 [Chat Room](https://github.com/44114/room) 即时通讯服务器的 Android 客户端。基于 **Jetpack Compose**、**OkHttp** 和 **Socket.IO** 构建，支持文字消息、文件分享（最大 4 GB）和账号管理。
 
 > 🤖 **本项目由 [Claude Code](https://claude.ai/code) (Anthropic) 辅助开发**
@@ -269,6 +273,8 @@ android/app/src/main/java/com/chatroom/app/
 <a id="繁體中文"></a>
 
 # 💬 聊天室 — Android 用戶端
+
+> ⚠️ **守護開放的 Android** — Google 將於 2026 年 9 月起強制封鎖未註冊開發者的應用，側載自由面臨威脅。前往 [keepandroidopen.org](https://keepandroidopen.org) 了解更多並支持這項運動。
 
 [Chat Room](https://github.com/44114/room) 即時通訊伺服器的 Android 用戶端。基於 **Jetpack Compose**、**OkHttp** 和 **Socket.IO** 建構，支援文字訊息、檔案分享（最大 4 GB）和帳號管理。
 
