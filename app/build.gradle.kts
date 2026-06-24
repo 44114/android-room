@@ -54,6 +54,12 @@ android {
             useLegacyPackaging = true
         }
     }
+
+    dependenciesInfo {
+        // Disable dependency metadata in APK Signing Block.
+        // F-Droid scanner rejects extra signing blocks, so this must be off.
+        includeInApk = false
+    }
 }
 
 dependencies {
