@@ -4,7 +4,9 @@ import android.util.Log
 import com.chatroom.app.BuildConfig
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.model.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -48,14 +50,14 @@ class ApiService(private val prefs: PreferencesManager) {
         })
         .addInterceptor { chain ->
             val req = chain.request().newBuilder()
-                .addHeader("X-CSRF-Token", csrfToken)
+                .header("X-CSRF-Token", csrfToken)
                 .addHeader("X-Client-Type", "android")
                 .build()
             chain.proceed(req)
         }
         .addInterceptor(HttpLoggingInterceptor { msg ->
             Log.d("ApiService", msg)
-        }.apply { level = HttpLoggingInterceptor.Level.BODY })
+        }.apply { level = HttpLoggingInterceptor.Level.BASIC })
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .writeTimeout(120, TimeUnit.SECONDS)
@@ -63,6 +65,15 @@ class ApiService(private val prefs: PreferencesManager) {
 
     /** CSRF token, updated from server responses. */
     var csrfToken: String = ""
+
+    /** Exposed for FileRepository and SocketManager to use the same authenticated client. */
+    fun getClient(): OkHttpClient = client
+
+    /** Get session cookies for the current host (used by SocketManager for WebSocket handshake). */
+    fun getCookiesForHost(): String {
+        val host = runCatching { java.net.URI(baseUrl).host }.getOrNull() ?: return ""
+        return cookieStore[host]?.joinToString("; ") { "${it.name}=${it.value}" } ?: ""
+    }
 
     // ── Auth ──────────────────────────────────────────────────────
 
@@ -138,7 +149,7 @@ class ApiService(private val prefs: PreferencesManager) {
     suspend fun uploadChunk(
         uploadId: String, fileId: Int, chunkIndex: Int,
         chunkData: ByteArray, fileName: String,
-    ): ChunkResponse {
+    ): ChunkResponse = withContext(Dispatchers.IO) {
         val mpBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("upload_id", uploadId)
@@ -150,13 +161,12 @@ class ApiService(private val prefs: PreferencesManager) {
 
         val req = Request.Builder()
             .url("$baseUrl/files/upload/chunk")
-            .addHeader("X-CSRF-Token", csrfToken)
             .post(mpBody)
             .build()
 
         val resp = client.newCall(req).execute()
         val respBody = resp.body?.string() ?: "{}"
-        return json.decodeFromString(respBody)
+        json.decodeFromString(respBody)
     }
 
     suspend fun completeUpload(uploadId: String, fileId: Int): UploadComplete {
@@ -180,21 +190,21 @@ class ApiService(private val prefs: PreferencesManager) {
         return obj.toString().toRequestBody(jsonMediaType)
     }
 
-    private suspend fun post(url: String, body: RequestBody): String {
+    private suspend fun post(url: String, body: RequestBody): String = withContext(Dispatchers.IO) {
         val req = Request.Builder()
             .url(url)
-            .addHeader("X-CSRF-Token", csrfToken)
             .post(body)
             .build()
         val resp = client.newCall(req).execute()
         val respBody = resp.body?.string() ?: "{}"
         resp.header("X-CSRF-Token")?.let { csrfToken = it }
-        return respBody
+        respBody
     }
 
-    private suspend fun get(url: String): String {
+    private suspend fun get(url: String): String = withContext(Dispatchers.IO) {
         val req = Request.Builder().url(url).get().build()
         val resp = client.newCall(req).execute()
-        return resp.body?.string() ?: "{}"
+        resp.header("X-CSRF-Token")?.let { csrfToken = it }
+        resp.body?.string() ?: "{}"
     }
 }

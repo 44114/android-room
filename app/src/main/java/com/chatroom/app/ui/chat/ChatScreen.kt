@@ -67,6 +67,7 @@ fun ChatScreen(
         chatRepo.connect()
         // Auto-scroll on new messages
         chatRepo.messages.collect { msg ->
+            if (msg.id > 0 && messages.any { it.id == msg.id }) return@collect
             messages = messages + msg
             if (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == messages.size - 2 ||
                 messages.size <= 3) {

@@ -21,7 +21,10 @@ import org.json.JSONObject
  *   connected — true/false connection state
  *   typing    — Pair<username, isTyping>
  */
-class SocketManager(private val prefs: PreferencesManager) {
+class SocketManager(
+    private val prefs: PreferencesManager,
+    private val api: ApiService,
+) {
 
     private val serverUrl: String
         get() = runBlocking { prefs.getServerUrlOnce() }
@@ -39,7 +42,7 @@ class SocketManager(private val prefs: PreferencesManager) {
     val typing: Flow<Pair<String, Boolean>> = _typing.receiveAsFlow()
 
     fun connect() {
-        if (socket?.connected() == true) return
+        if (socket != null) return
 
         val options = IO.Options().apply {
             transports = arrayOf("websocket")
@@ -48,6 +51,10 @@ class SocketManager(private val prefs: PreferencesManager) {
             reconnectionDelay = 1000
             reconnectionDelayMax = 30000
             timeout = 20000
+            val cookies = api.getCookiesForHost()
+            if (cookies.isNotEmpty()) {
+                extraHeaders = mapOf("Cookie" to listOf(cookies))
+            }
         }
 
         socket = IO.socket(serverUrl, options).apply {

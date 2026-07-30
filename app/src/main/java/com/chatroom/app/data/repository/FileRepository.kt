@@ -6,6 +6,8 @@ import android.provider.OpenableColumns
 import com.chatroom.app.data.api.ApiService
 import com.chatroom.app.data.model.FileInfo
 import com.chatroom.app.data.model.UploadComplete
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
@@ -106,10 +108,11 @@ class FileRepository(
         onProgress: (Long, Long) -> Unit,
     ): Result<File> = runCatching {
         val url = api.getDownloadUrl(fileId)
-        val client = okhttp3.OkHttpClient()
-        val response = client.newCall(
-            okhttp3.Request.Builder().url(url).build()
-        ).execute()
+        val response = withContext(Dispatchers.IO) {
+            api.getClient().newCall(
+                okhttp3.Request.Builder().url(url).build()
+            ).execute()
+        }
 
         val body = response.body ?: throw Exception("响应体为空")
 

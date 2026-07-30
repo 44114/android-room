@@ -20,7 +20,7 @@ class ChatRoomApp : Application() {
         instance = this
         prefs = PreferencesManager(this)
         api = ApiService(prefs)
-        socketManager = SocketManager(prefs)
+        socketManager = SocketManager(prefs, api)
     }
 
     companion object {
