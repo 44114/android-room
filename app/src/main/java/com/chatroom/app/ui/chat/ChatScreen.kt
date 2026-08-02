@@ -48,12 +48,15 @@ fun ChatScreen(
     var inputText by remember { mutableStateOf("") }
     var typingUser by remember { mutableStateOf("") }
     var uploadProgress by remember { mutableStateOf<Pair<Long, Long>?>(null) } // (uploaded, total)
+    var downloadProgress by remember { mutableStateOf<Pair<Long, Long>?>(null) } // (downloaded, total)
     val snackbarHostState = remember { SnackbarHostState() }
     var snackbarMessage by remember { mutableStateOf<String?>(null) }
 
     val connectedText = stringResource(R.string.chat_connected)
     val disconnectedText = stringResource(R.string.chat_disconnected)
     val uploadFailedText = stringResource(R.string.chat_upload_failed)
+    val downloadFailedText = stringResource(R.string.file_download_failed)
+    val openFailedText = stringResource(R.string.file_open_failed)
 
     LaunchedEffect(snackbarMessage) {
         snackbarMessage?.let {
@@ -133,7 +136,7 @@ fun ChatScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { padding ->
-        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+        Column(modifier = Modifier.fillMaxSize().padding(padding).imePadding()) {
             // Messages
             LazyColumn(
                 modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 12.dp),
@@ -153,12 +156,32 @@ fun ChatScreen(
                         }
                         MessageType.FILE -> {
                             FileCard(message = msg, onDownload = { fileId ->
-                                // Open download URL in browser or download manager
-                                val url = fileRepo.getDownloadUrl(fileId)
-                                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
-                                    data = android.net.Uri.parse(url)
+                                val filename = msg.filename ?: "file"
+                                val fileSize = msg.fileSize ?: 0L
+                                scope.launch {
+                                    downloadProgress = 0L to fileSize
+                                    fileRepo.downloadFile(fileId, filename, fileSize) { downloaded, total ->
+                                        downloadProgress = downloaded to total
+                                    }.onSuccess { file ->
+                                        downloadProgress = null
+                                        val uri = androidx.core.content.FileProvider.getUriForFile(
+                                            context, "${context.packageName}.fileprovider", file
+                                        )
+                                        val mime = context.contentResolver.getType(uri) ?: "application/octet-stream"
+                                        val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                                            setDataAndType(uri, mime)
+                                            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                        }
+                                        runCatching {
+                                            context.startActivity(intent)
+                                        }.onFailure {
+                                            snackbarMessage = openFailedText
+                                        }
+                                    }.onFailure { err ->
+                                        downloadProgress = null
+                                        snackbarMessage = err.message ?: downloadFailedText
+                                    }
                                 }
-                                context.startActivity(intent)
                             })
                         }
                         else -> {
@@ -186,11 +209,24 @@ fun ChatScreen(
             // Upload progress
             uploadProgress?.let { (uploaded, total) ->
                 LinearProgressIndicator(
-                    progress = { uploaded.toFloat() / total.toFloat() },
+                    progress = { if (total > 0) uploaded.toFloat() / total.toFloat() else 0f },
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
                 )
                 Text(
                     stringResource(R.string.chat_uploading, uploaded / 1024 / 1024, total / 1024 / 1024),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
+            }
+
+            // Download progress
+            downloadProgress?.let { (downloaded, total) ->
+                LinearProgressIndicator(
+                    progress = { if (total > 0) downloaded.toFloat() / total.toFloat() else 0f },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+                )
+                Text(
+                    stringResource(R.string.chat_downloading, downloaded / 1024 / 1024, total / 1024 / 1024),
                     style = MaterialTheme.typography.labelSmall,
                     modifier = Modifier.padding(horizontal = 16.dp),
                 )

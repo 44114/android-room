@@ -16,7 +16,7 @@ class FileRepository(
     private val context: Context,
 ) {
     companion object {
-        const val CHUNK_SIZE = 5 * 1024 * 1024 // 5 MB
+        const val DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024 // 5 MB fallback
     }
 
     /**
@@ -45,10 +45,16 @@ class FileRepository(
 
         mimeType = contentResolver.getType(uri) ?: mimeType
 
-        val totalChunks = ((fileSize + CHUNK_SIZE - 1) / CHUNK_SIZE).toInt()
+        // Use the server-advertised chunk size so requests never exceed the
+        // server's MAX_CONTENT_LENGTH (which includes multipart overhead).
+        val chunkSize = runCatching { api.fetchConfig().chunkSize }
+            .getOrElse { DEFAULT_CHUNK_SIZE }
+            .coerceAtLeast(1024 * 1024)
+
+        val totalChunks = ((fileSize + chunkSize - 1) / chunkSize).toInt()
 
         // 1. Init
-        val init = api.initUpload(fileName, fileSize, mimeType, totalChunks, CHUNK_SIZE)
+        val init = api.initUpload(fileName, fileSize, mimeType, totalChunks, chunkSize)
         if (!init.success) throw Exception(init.error ?: "上传初始化失败")
 
         val uploadId = init.uploadId!!
@@ -59,15 +65,15 @@ class FileRepository(
             ?: throw Exception("无法读取文件")
 
         inputStream.use { stream ->
-            val buffer = ByteArray(CHUNK_SIZE)
+            val buffer = ByteArray(chunkSize)
             var chunkIndex = 0
             var uploaded = 0L
 
             while (chunkIndex < totalChunks) {
-                val bytesRead = stream.read(buffer, 0, CHUNK_SIZE)
+                val bytesRead = stream.read(buffer, 0, chunkSize)
                 if (bytesRead <= 0) break
 
-                val chunk = if (bytesRead == CHUNK_SIZE) buffer else buffer.copyOf(bytesRead)
+                val chunk = if (bytesRead == chunkSize) buffer else buffer.copyOf(bytesRead)
 
                 // Retry up to 3 times
                 var ok = false
@@ -114,9 +120,19 @@ class FileRepository(
             ).execute()
         }
 
+        if (!response.isSuccessful || response.request.url.toString() != url) {
+            // Redirected away from the file endpoint (e.g. session expired and
+            // the server sent us to the login page) or errored.
+            response.close()
+            throw Exception("HTTP ${response.code}")
+        }
+
         val body = response.body ?: throw Exception("响应体为空")
 
-        val outputFile = File(context.cacheDir, fileName)
+        // Sanitize the filename so it can never escape the cache directory.
+        val safeName = fileName.replace(Regex("[/\\\\]"), "_")
+            .ifBlank { "file" }
+        val outputFile = File(context.cacheDir, safeName)
         FileOutputStream(outputFile).use { fos ->
             body.byteStream().use { input ->
                 val buffer = ByteArray(8192)

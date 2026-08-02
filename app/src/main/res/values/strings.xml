@@ -42,6 +42,10 @@
     <string name="chat_input_placeholder">输入消息…</string>
     <string name="chat_send">发送</string>
     <string name="chat_upload_failed">上传失败</string>
+    <string name="chat_downloading">下载中: %1$dMB / %2$dMB</string>
+    <string name="file_download_failed">下载失败</string>
+    <string name="file_open_failed">无法打开文件</string>
+    <string name="login_change_server">更换服务器</string>
 
     <!-- Account Screen -->
     <string name="account_title">⚙️ 账号管理</string>

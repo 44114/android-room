@@ -42,6 +42,10 @@
     <string name="chat_input_placeholder">メッセージを入力…</string>
     <string name="chat_send">送信</string>
     <string name="chat_upload_failed">アップロード失敗</string>
+    <string name="chat_downloading">ダウンロード中: %1$dMB / %2$dMB</string>
+    <string name="file_download_failed">ダウンロード失敗</string>
+    <string name="file_open_failed">ファイルを開けません</string>
+    <string name="login_change_server">サーバーを変更</string>
 
     <!-- Account Screen -->
     <string name="account_title">⚙️ アカウント管理</string>

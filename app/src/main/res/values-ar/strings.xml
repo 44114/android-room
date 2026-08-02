@@ -42,6 +42,10 @@
     <string name="chat_input_placeholder">اكتب رسالة…</string>
     <string name="chat_send">إرسال</string>
     <string name="chat_upload_failed">فشل الرفع</string>
+    <string name="chat_downloading">جارٍ التنزيل: %1$dMB / %2$dMB</string>
+    <string name="file_download_failed">فشل التنزيل</string>
+    <string name="file_open_failed">تعذر فتح الملف</string>
+    <string name="login_change_server">تغيير الخادم</string>
 
     <!-- Account Screen -->
     <string name="account_title">⚙️ إدارة الحساب</string>

@@ -3,12 +3,13 @@ package com.chatroom.app.data.repository
 import com.chatroom.app.data.api.SocketManager
 import com.chatroom.app.data.model.Message
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 class ChatRepository(
     private val socketManager: SocketManager,
 ) {
     val messages: Flow<Message> = socketManager.messages
-    val connected: Flow<Boolean> = socketManager.connected
+    val connected: StateFlow<Boolean> = socketManager.connected
     val typing: Flow<Pair<String, Boolean>> = socketManager.typing
 
     fun connect() = socketManager.connect()

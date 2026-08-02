@@ -57,7 +57,8 @@ fun RegisterScreen(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp),
+            .padding(24.dp)
+            .imePadding(),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
     ) {
         Column(

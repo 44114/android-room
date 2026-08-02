@@ -7,6 +7,10 @@ import com.chatroom.app.data.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -21,6 +25,11 @@ import java.util.concurrent.TimeUnit
  * Uses OkHttp with automatic cookie management so session cookies
  * from login/register are persisted and sent with every request.
  *
+ * Cookies and the CSRF token are mirrored to PreferencesManager
+ * (DataStore) so an authenticated session survives process death:
+ * on startup they are loaded back into the in-memory cookie jar and
+ * the WebSocket handshake can authenticate without a fresh login.
+ *
  * The server URL is read from PreferencesManager so the user can
  * configure it at runtime.
  */
@@ -28,6 +37,10 @@ class ApiService(private val prefs: PreferencesManager) {
 
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
+    private val cookieStoreSerializer = MapSerializer(
+        String.serializer(),
+        ListSerializer(PersistedCookie.serializer()),
+    )
 
     /** Get current server URL — defaults to the build-time value if not configured. */
     val baseUrl: String
@@ -38,13 +51,17 @@ class ApiService(private val prefs: PreferencesManager) {
     // (JavaNetCookieJar was removed from OkHttp 4.12.)
     private val cookieStore = java.util.concurrent.ConcurrentHashMap<String, MutableList<Cookie>>()
 
+    private var cookiesLoaded = false
+
     private val client: OkHttpClient = OkHttpClient.Builder()
         .cookieJar(object : CookieJar {
             override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
                 cookieStore.getOrPut(url.host) { mutableListOf() }
                     .apply { cookies.forEach { c -> removeIf { it.name == c.name }; add(c) } }
+                persistAuthState()
             }
             override fun loadForRequest(url: HttpUrl): List<Cookie> {
+                loadPersistedCookies()
                 return cookieStore[url.host]?.toList() ?: emptyList()
             }
         })
@@ -71,8 +88,76 @@ class ApiService(private val prefs: PreferencesManager) {
 
     /** Get session cookies for the current host (used by SocketManager for WebSocket handshake). */
     fun getCookiesForHost(): String {
+        loadPersistedCookies()
         val host = runCatching { java.net.URI(baseUrl).host }.getOrNull() ?: return ""
         return cookieStore[host]?.joinToString("; ") { "${it.name}=${it.value}" } ?: ""
+    }
+
+    /** Drop all cookies and the CSRF token (called on logout / account deletion). */
+    fun clearCookies() {
+        cookieStore.clear()
+        csrfToken = ""
+        cookiesLoaded = true
+        runBlocking {
+            prefs.setCookies("")
+            prefs.setCsrfToken("")
+        }
+    }
+
+    /** Restore persisted cookies + CSRF token from DataStore into memory (once per process). */
+    private fun loadPersistedCookies() {
+        if (cookiesLoaded) return
+        synchronized(this) {
+            if (cookiesLoaded) return
+            cookiesLoaded = true
+            runBlocking {
+                prefs.getCookiesOnce().takeIf { it.isNotBlank() }?.let { stored ->
+                    val decoded = runCatching {
+                        json.decodeFromString(cookieStoreSerializer, stored)
+                    }.getOrNull() ?: emptyMap()
+                    decoded.forEach { (host, cookies) ->
+                        cookieStore[host] = cookies.map { it.toOkHttpCookie() }.toMutableList()
+                    }
+                }
+                prefs.getCsrfTokenOnce().takeIf { it.isNotBlank() }?.let { csrfToken = it }
+            }
+        }
+    }
+
+    /** Write the current in-memory cookies + CSRF token to DataStore. */
+    private fun persistAuthState() {
+        runBlocking {
+            val store: Map<String, List<PersistedCookie>> = cookieStore.mapValues { (_, list) ->
+                list.map { it.toPersisted() }
+            }
+            prefs.setCookies(json.encodeToString(cookieStoreSerializer, store))
+            if (csrfToken.isNotBlank()) prefs.setCsrfToken(csrfToken)
+        }
+    }
+
+    private fun Cookie.toPersisted() = PersistedCookie(
+        name = name,
+        value = value,
+        domain = domain,
+        path = path,
+        expiresAt = expiresAt,
+        httpOnly = httpOnly,
+        hostOnly = hostOnly,
+        secure = secure,
+    )
+
+    private fun PersistedCookie.toOkHttpCookie(): Cookie {
+        val builder = Cookie.Builder()
+            .name(name)
+            .value(value)
+            .path(path)
+            .expiresAt(expiresAt)
+            .apply {
+                if (httpOnly) httpOnly()
+                if (secure) secure()
+            }
+        return if (hostOnly) builder.hostOnlyDomain(domain).build()
+        else builder.domain(domain).build()
     }
 
     // ── Auth ──────────────────────────────────────────────────────
@@ -197,14 +282,37 @@ class ApiService(private val prefs: PreferencesManager) {
             .build()
         val resp = client.newCall(req).execute()
         val respBody = resp.body?.string() ?: "{}"
-        resp.header("X-CSRF-Token")?.let { csrfToken = it }
+        resp.header("X-CSRF-Token")?.let { token ->
+            if (token != csrfToken) {
+                csrfToken = token
+                persistAuthState()
+            }
+        }
         respBody
     }
 
     private suspend fun get(url: String): String = withContext(Dispatchers.IO) {
         val req = Request.Builder().url(url).get().build()
         val resp = client.newCall(req).execute()
-        resp.header("X-CSRF-Token")?.let { csrfToken = it }
+        resp.header("X-CSRF-Token")?.let { token ->
+            if (token != csrfToken) {
+                csrfToken = token
+                persistAuthState()
+            }
+        }
         resp.body?.string() ?: "{}"
     }
 }
+
+/** Serializable cookie snapshot for persisting the OkHttp cookie jar in DataStore. */
+@Serializable
+data class PersistedCookie(
+    val name: String,
+    val value: String,
+    val domain: String,
+    val path: String,
+    val expiresAt: Long,
+    val httpOnly: Boolean,
+    val hostOnly: Boolean,
+    val secure: Boolean,
+)

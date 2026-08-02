@@ -56,6 +56,32 @@ class PreferencesManager(private val context: Context) {
         return value
     }
 
+    /** Read the serialized cookie store (empty string if none saved). */
+    suspend fun getCookiesOnce(): String {
+        var value = ""
+        context.dataStore.data.take(1).collect { prefs ->
+            value = prefs[KEY_COOKIE_STORE] ?: ""
+        }
+        return value
+    }
+
+    /** Persist the serialized cookie store. Pass "" to clear it. */
+    suspend fun setCookies(value: String) {
+        context.dataStore.edit { prefs ->
+            if (value.isBlank()) prefs.remove(KEY_COOKIE_STORE)
+            else prefs[KEY_COOKIE_STORE] = value
+        }
+    }
+
+    /** Read the persisted CSRF token. */
+    suspend fun getCsrfTokenOnce(): String {
+        var value = ""
+        context.dataStore.data.take(1).collect { prefs ->
+            value = prefs[KEY_CSRF_TOKEN] ?: ""
+        }
+        return value
+    }
+
     suspend fun setLoggedIn(userId: Int, username: String) {
         context.dataStore.edit { prefs ->
             prefs[KEY_LOGGED_IN] = true
@@ -70,6 +96,7 @@ class PreferencesManager(private val context: Context) {
             prefs[KEY_USER_ID] = 0
             prefs[KEY_USERNAME] = ""
             prefs[KEY_CSRF_TOKEN] = ""
+            prefs.remove(KEY_COOKIE_STORE)
         }
     }
 
@@ -105,5 +132,6 @@ class PreferencesManager(private val context: Context) {
         private val KEY_TURNSTILE_SITE_KEY = stringPreferencesKey("turnstile_site_key")
         private val KEY_TURNSTILE_REQUIRED_FOR_MOBILE = booleanPreferencesKey("turnstile_required_for_mobile")
         private val KEY_CSRF_TOKEN = stringPreferencesKey("csrf_token")
+        private val KEY_COOKIE_STORE = stringPreferencesKey("cookie_store")
     }
 }

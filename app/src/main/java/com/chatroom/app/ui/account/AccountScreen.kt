@@ -61,7 +61,8 @@ fun AccountScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(16.dp)
+                .imePadding(),
         ) {
             // Account info
             Card(modifier = Modifier.fillMaxWidth()) {

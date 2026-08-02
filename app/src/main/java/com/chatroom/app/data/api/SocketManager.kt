@@ -9,6 +9,9 @@ import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
@@ -35,8 +38,8 @@ class SocketManager(
     private val _messages = Channel<Message>(Channel.BUFFERED)
     val messages: Flow<Message> = _messages.receiveAsFlow()
 
-    private val _connected = Channel<Boolean>(Channel.CONFLATED)
-    val connected: Flow<Boolean> = _connected.receiveAsFlow()
+    private val _connected = MutableStateFlow(false)
+    val connected: StateFlow<Boolean> = _connected.asStateFlow()
 
     private val _typing = Channel<Pair<String, Boolean>>(Channel.CONFLATED)
     val typing: Flow<Pair<String, Boolean>> = _typing.receiveAsFlow()
@@ -61,12 +64,12 @@ class SocketManager(
 
             on(Socket.EVENT_CONNECT) {
                 Log.i(TAG, "WebSocket connected")
-                _connected.trySend(true)
+                _connected.value = true
             }
 
             on(Socket.EVENT_DISCONNECT) {
                 Log.w(TAG, "WebSocket disconnected")
-                _connected.trySend(false)
+                _connected.value = false
             }
 
             on(Socket.EVENT_CONNECT_ERROR) { args ->
@@ -147,7 +150,7 @@ class SocketManager(
         socket?.disconnect()
         socket?.off()
         socket = null
-        _connected.trySend(false)
+        _connected.value = false
     }
 
     companion object {

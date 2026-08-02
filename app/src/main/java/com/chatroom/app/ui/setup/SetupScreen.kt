@@ -1,5 +1,6 @@
 package com.chatroom.app.ui.setup
 
+import android.os.Build
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,7 +54,8 @@ fun SetupScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(32.dp)
+            .imePadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -148,7 +150,7 @@ fun SetupScreen(
             }
         }
 
-        if (isFirstSetup) {
+        if (isFirstSetup && isEmulator()) {
             Spacer(Modifier.height(16.dp))
 
             // Quick-set button for emulator
@@ -165,4 +167,19 @@ fun SetupScreen(
             }
         }
     }
+}
+
+/** Heuristic: is this process running on an emulator rather than a physical device? */
+private fun isEmulator(): Boolean {
+    val model = Build.MODEL ?: ""
+    val product = Build.PRODUCT ?: ""
+    val manufacturer = Build.MANUFACTURER ?: ""
+    val fingerprint = Build.FINGERPRINT ?: ""
+    return fingerprint.startsWith("generic")
+        || fingerprint.contains("emulator")
+        || product.contains("sdk_gphone")
+        || model.contains("google_sdk")
+        || model.contains("Emulator")
+        || model.contains("Android SDK built for x86")
+        || manufacturer.contains("Genymotion")
 }

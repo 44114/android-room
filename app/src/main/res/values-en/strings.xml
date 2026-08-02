@@ -42,6 +42,10 @@
     <string name="chat_input_placeholder">Type a message…</string>
     <string name="chat_send">Send</string>
     <string name="chat_upload_failed">Upload failed</string>
+    <string name="chat_downloading">Downloading: %1$dMB / %2$dMB</string>
+    <string name="file_download_failed">Download failed</string>
+    <string name="file_open_failed">Unable to open file</string>
+    <string name="login_change_server">Change Server</string>
 
     <!-- Account Screen -->
     <string name="account_title">⚙️ Account Management</string>

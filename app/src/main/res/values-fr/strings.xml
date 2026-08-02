@@ -42,6 +42,10 @@
     <string name="chat_input_placeholder">Saisissez un message…</string>
     <string name="chat_send">Envoyer</string>
     <string name="chat_upload_failed">Échec du téléchargement</string>
+    <string name="chat_downloading">Téléchargement: %1$dMB / %2$dMB</string>
+    <string name="file_download_failed">Échec du téléchargement</string>
+    <string name="file_open_failed">Impossible d\'ouvrir le fichier</string>
+    <string name="login_change_server">Changer de serveur</string>
 
     <!-- Account Screen -->
     <string name="account_title">⚙️ Gestion du compte</string>

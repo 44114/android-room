@@ -25,6 +25,7 @@ fun LoginScreen(
     prefs: PreferencesManager,
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
+    onNavigateToSetup: () -> Unit,
 ) {
     val context = LocalContext.current
     val siteKey by prefs.turnstileSiteKey.collectAsState(initial = "")
@@ -46,7 +47,8 @@ fun LoginScreen(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp),
+            .padding(24.dp)
+            .imePadding(),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
     ) {
         Column(
@@ -146,6 +148,10 @@ fun LoginScreen(
 
             TextButton(onClick = onNavigateToRegister) {
                 Text(stringResource(R.string.login_no_account))
+            }
+
+            TextButton(onClick = onNavigateToSetup) {
+                Text(stringResource(R.string.login_change_server))
             }
         }
     }

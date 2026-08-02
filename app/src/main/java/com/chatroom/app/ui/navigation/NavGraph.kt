@@ -58,7 +58,7 @@ fun NavGraph(
                 api = api,
                 onConfigured = {
                     navController.navigate(Routes.LOGIN) {
-                        popUpTo(Routes.SETUP) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
                     }
                 },
             )
@@ -75,6 +75,9 @@ fun NavGraph(
                 },
                 onNavigateToRegister = {
                     navController.navigate(Routes.REGISTER)
+                },
+                onNavigateToSetup = {
+                    navController.navigate(Routes.SETUP)
                 },
             )
         }

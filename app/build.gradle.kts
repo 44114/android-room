@@ -13,8 +13,8 @@ android {
         applicationId = "com.chatroom.app"
         minSdk = 26  // Android 8.0 (Oreo)
         targetSdk = 35
-        versionCode = 200
-        versionName = "2.0.0"
+        versionCode = 201
+        versionName = "2.0.1"
 
         // Server URL — override in local.properties or via buildConfigField for release
         buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:9888\"")

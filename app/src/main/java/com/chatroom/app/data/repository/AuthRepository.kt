@@ -42,6 +42,7 @@ class AuthRepository(
 
     suspend fun logout(): Result<ApiResponse> = runCatching {
         val resp = api.logout()
+        api.clearCookies()
         prefs.setLoggedOut()
         resp
     }
@@ -56,6 +57,7 @@ class AuthRepository(
 
     suspend fun deleteAccount(password: String): Result<ApiResponse> = runCatching {
         val resp = api.deleteAccount(password)
+        api.clearCookies()
         prefs.setLoggedOut()
         resp
     }
