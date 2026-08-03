@@ -17,6 +17,8 @@ import com.chatroom.app.R
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.repository.AuthRepository
 import com.chatroom.app.ui.components.TurnstileWebView
+import com.chatroom.app.ui.components.autofillNewPassword
+import com.chatroom.app.ui.components.autofillNewUsername
 import kotlinx.coroutines.launch
 
 @Composable
@@ -76,7 +78,9 @@ fun RegisterScreen(
                 label = { Text(stringResource(R.string.register_username_hint)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillNewUsername { username = it },
             )
             Spacer(Modifier.height(12.dp))
 
@@ -93,7 +97,9 @@ fun RegisterScreen(
                     }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillNewPassword { password = it },
             )
             // Strength indicator
             if (password.isNotEmpty()) {
@@ -126,7 +132,9 @@ fun RegisterScreen(
                     { Text(stringResource(R.string.register_password_mismatch)) }
                 } else null,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillNewPassword { passwordConfirm = it },
             )
             Spacer(Modifier.height(12.dp))
 
