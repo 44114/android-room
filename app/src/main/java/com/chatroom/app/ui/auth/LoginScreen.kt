@@ -17,6 +17,8 @@ import com.chatroom.app.R
 import com.chatroom.app.data.local.PreferencesManager
 import com.chatroom.app.data.repository.AuthRepository
 import com.chatroom.app.ui.components.TurnstileWebView
+import com.chatroom.app.ui.components.autofillPassword
+import com.chatroom.app.ui.components.autofillUsername
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,7 +68,9 @@ fun LoginScreen(
                 label = { Text(stringResource(R.string.login_username)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillUsername { username = it },
             )
             Spacer(Modifier.height(12.dp))
 
@@ -83,7 +87,9 @@ fun LoginScreen(
                     }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .autofillPassword { password = it },
             )
             Spacer(Modifier.height(8.dp))
 

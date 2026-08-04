@@ -112,40 +112,40 @@ class FileRepository(
         fileName: String,
         fileSize: Long,
         onProgress: (Long, Long) -> Unit,
-    ): Result<File> = runCatching {
-        val url = api.getDownloadUrl(fileId)
-        val response = withContext(Dispatchers.IO) {
-            api.getClient().newCall(
+    ): Result<File> = withContext(Dispatchers.IO) {
+        runCatching {
+            val url = api.getDownloadUrl(fileId)
+            val response = api.getClient().newCall(
                 okhttp3.Request.Builder().url(url).build()
             ).execute()
-        }
 
-        if (!response.isSuccessful || response.request.url.toString() != url) {
-            // Redirected away from the file endpoint (e.g. session expired and
-            // the server sent us to the login page) or errored.
-            response.close()
-            throw Exception("HTTP ${response.code}")
-        }
+            if (!response.isSuccessful || response.request.url.toString() != url) {
+                // Redirected away from the file endpoint (e.g. session expired and
+                // the server sent us to the login page) or errored.
+                response.close()
+                throw Exception("HTTP ${response.code}")
+            }
 
-        val body = response.body ?: throw Exception("响应体为空")
+            val body = response.body ?: throw Exception("响应体为空")
 
-        // Sanitize the filename so it can never escape the cache directory.
-        val safeName = fileName.replace(Regex("[/\\\\]"), "_")
-            .ifBlank { "file" }
-        val outputFile = File(context.cacheDir, safeName)
-        FileOutputStream(outputFile).use { fos ->
-            body.byteStream().use { input ->
-                val buffer = ByteArray(8192)
-                var downloaded = 0L
-                var bytesRead: Int
-                while (input.read(buffer).also { bytesRead = it } != -1) {
-                    fos.write(buffer, 0, bytesRead)
-                    downloaded += bytesRead
-                    onProgress(downloaded, fileSize)
+            // Sanitize the filename so it can never escape the cache directory.
+            val safeName = fileName.replace(Regex("[/\\\\]"), "_")
+                .ifBlank { "file" }
+            val outputFile = File(context.cacheDir, safeName)
+            FileOutputStream(outputFile).use { fos ->
+                body.byteStream().use { input ->
+                    val buffer = ByteArray(8192)
+                    var downloaded = 0L
+                    var bytesRead: Int
+                    while (input.read(buffer).also { bytesRead = it } != -1) {
+                        fos.write(buffer, 0, bytesRead)
+                        downloaded += bytesRead
+                        onProgress(downloaded, fileSize)
+                    }
                 }
             }
-        }
 
-        outputFile
+            outputFile
+        }
     }
 }
